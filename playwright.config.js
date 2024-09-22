@@ -1,4 +1,6 @@
 // @ts-check
+require("dotenv").config();
+
 const { defineConfig, devices } = require("@playwright/test");
 
 module.exports = defineConfig({
@@ -22,10 +24,10 @@ module.exports = defineConfig({
       testMatch: "**.qauto.spec.js",
       use: {
         headless: false,
-        baseURL: "https://qauto.forstudy.space/",
+        baseURL: process.env.BASE_URL,
         httpCredentials: {
-          username: "guest",
-          password: "welcome2qauto",
+          username: process.env.USER_NAME || "defaultUsername",
+          password: process.env.USER_PASSWORD || "defaultPassword",
         },
       },
     },
