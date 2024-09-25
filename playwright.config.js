@@ -5,7 +5,7 @@ const { defineConfig, devices } = require("@playwright/test");
 
 module.exports = defineConfig({
   testDir: "./e2e",
-  timeout: 60000,
+  timeout: 10000,
   retries: 2,
   fullyParallel: true,
 
@@ -21,7 +21,7 @@ module.exports = defineConfig({
   projects: [
     {
       name: "qauto",
-      testMatch: "**.qauto.spec.js",
+      testMatch: "**.spec.js",
       use: {
         headless: false,
         baseURL: process.env.BASE_URL,
@@ -29,6 +29,35 @@ module.exports = defineConfig({
           username: process.env.USER_NAME || "defaultUsername",
           password: process.env.USER_PASSWORD || "defaultPassword",
         },
+      },
+    },
+    { name: "setup", testMatch: "**/auth.setup.js" },
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/user.json",
+        headless: false,
+        baseURL: process.env.BASE_URL,
+        httpCredentials: {
+          username: process.env.USER_NAME || "defaultUsername",
+          password: process.env.USER_PASSWORD || "defaultPassword",
+        },
+        dependencies: ["setup"],
+      },
+    },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        storageState: "playwright/.auth/user.json",
+        headless: false,
+        baseURL: process.env.BASE_URL,
+        httpCredentials: {
+          username: process.env.USER_NAME || "defaultUsername",
+          password: process.env.USER_PASSWORD || "defaultPassword",
+        },
+        dependencies: ["setup"],
       },
     },
     /*  {
