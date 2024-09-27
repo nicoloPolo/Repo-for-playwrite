@@ -4,7 +4,7 @@ require("dotenv").config();
 const { defineConfig, devices } = require("@playwright/test");
 
 module.exports = defineConfig({
-  testDir: "./e2e",
+  //testDir: "./e2e",
   timeout: 10000,
   retries: 2,
   fullyParallel: true,
@@ -19,7 +19,7 @@ module.exports = defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {
+    /*     {
       name: "qauto",
       testMatch: "**.spec.js",
       use: {
@@ -31,8 +31,8 @@ module.exports = defineConfig({
         },
       },
     },
-    { name: "setup", testMatch: "**/auth.setup.js" },
-    {
+    { name: "setup", testMatch: "*auth.set/* up.js" }, */
+    /*   {
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
@@ -45,8 +45,8 @@ module.exports = defineConfig({
         },
         dependencies: ["setup"],
       },
-    },
-    {
+    }, */
+    /* {
       name: "firefox",
       use: {
         ...devices["Desktop Firefox"],
@@ -59,6 +59,19 @@ module.exports = defineConfig({
         },
         dependencies: ["setup"],
       },
+    }, */
+    {
+      name: "api-tests",
+      use: {
+        ...devices["Desktop Chrome"],
+        headless: false,
+        baseURL: process.env.BASE_URL,
+        httpCredentials: {
+          username: process.env.USER_NAME || "defaultUsername",
+          password: process.env.USER_PASSWORD || "defaultPassword",
+        },
+      },
+      testMatch: "*api/*.spec.js",
     },
     /*  {
       name: "chromium",
